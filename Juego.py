@@ -140,3 +140,70 @@ def main():
     
 if __name__ == "__main__":
     main()
+
+#Juan Manuel Restrepo Crea el Juego de Bacrá
+# Función para crear y barajar una baraja de cartas
+def crear_baraja():
+    palos = ['Corazones', 'Diamantes', 'Tréboles', 'Picas']
+    valores = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+    return [(valor, palo) for palo in palos for valor in valores]
+
+# Función para calcular el valor de una mano de cartas en Bacará
+def valor_mano(mano):
+    total = 0
+    for valor, palo in mano:
+        if valor in ['10', 'J', 'Q', 'K']:
+            total += 0
+        elif valor == 'A':
+            total += 1
+        else:
+            total += int(valor)
+    return total % 10
+
+# Función para determinar el ganador del juego
+def determinar_ganador(jugador, repartidor):
+    if jugador > repartidor:
+        return "¡El jugador gana!"
+    elif jugador < repartidor:
+        return "¡El repartidor gana!"
+    else:
+        return "¡Empate!"
+
+# Función para jugar una ronda de Bacará
+def jugar_ronda(baraja):
+    random.shuffle(baraja)
+    mano_jugador = [baraja.pop(), baraja.pop()]
+    mano_repartidor = [baraja.pop(), baraja.pop()]
+
+    print(f'Mano del jugador: {mano_jugador}')
+    print(f'Mano del repartidor: {mano_repartidor}')
+
+    while True:
+        accion = input("¿Quieres tomar una carta adicional? (s/n): ")
+        if accion.lower() == 's':
+            carta_nueva = baraja.pop()
+            mano_jugador.append(carta_nueva)
+            print(f'Has tomado la carta: {carta_nueva}')
+            print(f'Nueva mano del jugador: {mano_jugador}')
+            valor_jugador = valor_mano(mano_jugador)
+            print(f'El valor de la mano del jugador es: {valor_jugador}')
+            if valor_jugador >= 6:
+                break
+        elif accion.lower() == 'n':
+            break
+
+    valor_repartidor = valor_mano(mano_repartidor)
+
+    while valor_repartidor < 6:
+        carta_nueva = baraja.pop()
+        mano_repartidor.append(carta_nueva)
+        valor_repartidor = valor_mano(mano_repartidor)
+
+    print(f'El valor de la mano del repartidor es: {valor_repartidor}')
+
+    resultado = determinar_ganador(valor_jugador, valor_repartidor)
+    print(resultado)
+
+# Jugar una ronda de Bacará
+baraja = crear_baraja()
+jugar_ronda(baraja)
