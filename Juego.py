@@ -1,7 +1,5 @@
 import random
 
-#Juan Esteban Acevedo (Juego del BlackJack)
-
 # Función para crear una baraja de cartas
 def crear_baraja():
     palos = ['Corazones', 'Diamantes', 'Picas', 'Tréboles']
@@ -88,9 +86,6 @@ def jugar_blackjack():
         else:
             print("Opción no válida. Elige 'P' para pedir carta o 'PL' para plantarte.")
 
-# Iniciar el juego
-jugar_blackjack()
-
 # Juego de la Ruleta Andres Arroyave
 
 def jugar_ruleta():
@@ -137,19 +132,16 @@ def main():
             print(f"Perdiste ${apuesta}. El número ganador fue {numero_ganador}.")
     
     print("Gracias por jugar. Tu saldo final es: ${saldo}")
-    
-if __name__ == "__main__":
-    main()
 
-#Juan Manuel Restrepo Crea el Juego de Bacrá
+# Juan Manuel Restrepo Crea el Juego de Bacará
 # Función para crear y barajar una baraja de cartas
-def crear_baraja():
+def crear_baraja2():
     palos = ['Corazones', 'Diamantes', 'Tréboles', 'Picas']
     valores = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
     return [(valor, palo) for palo in palos for valor in valores]
 
 # Función para calcular el valor de una mano de cartas en Bacará
-def valor_mano(mano):
+def valor_mano2(mano):
     total = 0
     for valor, palo in mano:
         if valor in ['10', 'J', 'Q', 'K']:
@@ -185,25 +177,57 @@ def jugar_ronda(baraja):
             mano_jugador.append(carta_nueva)
             print(f'Has tomado la carta: {carta_nueva}')
             print(f'Nueva mano del jugador: {mano_jugador}')
-            valor_jugador = valor_mano(mano_jugador)
+            valor_jugador = valor_mano2(mano_jugador)
             print(f'El valor de la mano del jugador es: {valor_jugador}')
             if valor_jugador >= 6:
                 break
         elif accion.lower() == 'n':
             break
 
-    valor_repartidor = valor_mano(mano_repartidor)
+    valor_repartidor = valor_mano2(mano_repartidor)
 
     while valor_repartidor < 6:
         carta_nueva = baraja.pop()
         mano_repartidor.append(carta_nueva)
-        valor_repartidor = valor_mano(mano_repartidor)
+        valor_repartidor = valor_mano2(mano_repartidor)
 
     print(f'El valor de la mano del repartidor es: {valor_repartidor}')
 
     resultado = determinar_ganador(valor_jugador, valor_repartidor)
     print(resultado)
 
-# Jugar una ronda de Bacará
-baraja = crear_baraja()
-jugar_ronda(baraja)
+# Menú principal
+while True:
+    print("Bienvenido al Casino el Sombrero Vueltiao")
+    print("Menú:")
+    print("1. Bacará")
+    print("2. BlackJack")
+    print("3. Ruleta")
+    print("4. Salir")
+
+    # Pedir al usuario que elija una opción
+    opcion = input("Elija que quiere jugar ps mijito (1-4): ")
+
+    # Verificar si la opción es válida
+    if opcion.isdigit():
+        opcion = int(opcion)
+        if opcion == 1:
+            print("Has seleccionado la Bacará")
+            # Jugar una ronda de Bacará
+            baraja = crear_baraja2()
+            jugar_ronda(baraja)
+        elif opcion == 2:
+            print("Has seleccionado el BlackJack")
+            # Jugar el juego de Blackjack
+            jugar_blackjack()
+        elif opcion == 3:
+            print("Has seleccionado la Ruleta")
+            # Jugar el juego de Ruleta
+            main()
+        elif opcion == 4:
+            print("Hasta que vuelva ps mijito. ¡Que la virgen lo acompañe!")
+            break
+        else:
+            print("Opción no válida. Por favor, elija una opción válida (1-4).")
+    else:
+        print("Entrada no válida. Por favor, ingrese un número del menú (1-4).")
